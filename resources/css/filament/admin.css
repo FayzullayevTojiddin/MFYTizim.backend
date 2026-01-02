@@ -1,0 +1,9 @@
+.filament-stats-overview-widget canvas {
+    animation: pulseChart 4s ease-in-out infinite;
+}
+
+@keyframes pulseChart {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
