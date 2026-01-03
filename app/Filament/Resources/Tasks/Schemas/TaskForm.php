@@ -29,9 +29,9 @@ class TaskForm
                 ->preload()
                 ->required(),
 
-            Select::make('user_id')
-                ->label('Joyladi')
-                ->relationship('user', 'name')
+            Select::make('neighborood_id')
+                ->label('Mahalla')
+                ->relationship('neighborood', 'title')
                 ->searchable()
                 ->preload()
                 ->required(),

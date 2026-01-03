@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Enums\UserRole;
 
 class TaskCategoryResource extends Resource
 {
@@ -26,6 +27,17 @@ class TaskCategoryResource extends Resource
     protected static ?string $pluralModelLabel = 'Vazifa Turlari';
 
     protected static string | UnitEnum | null $navigationGroup = 'Vazifalar boshqaruvi';
+
+    public static function canViewAny(): bool
+    {
+        return in_array(
+            auth()->user()?->role,
+            [
+                UserRole::SUPER->value,
+                UserRole::YORDAMCHI->value,
+            ]
+        );
+    }
 
     public static function form(Schema $schema): Schema
     {

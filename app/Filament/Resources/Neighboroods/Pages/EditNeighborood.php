@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Neighboroods\Pages;
 use App\Filament\Resources\Neighboroods\NeighboroodResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Widgets\NeighboroodTaskLineChart;
 
 class EditNeighborood extends EditRecord
 {
@@ -14,6 +15,13 @@ class EditNeighborood extends EditRecord
     {
         return [
             DeleteAction::make(),
+        ];
+    }
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            NeighboroodTaskLineChart::class
         ];
     }
 }

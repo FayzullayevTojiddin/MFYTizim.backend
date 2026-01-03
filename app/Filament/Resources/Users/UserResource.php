@@ -14,6 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
@@ -30,6 +32,28 @@ class UserResource extends Resource
     protected static string | UnitEnum | null $navigationGroup = 'Tizim';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        if (auth()->user()?->role !== UserRole::SUPER->value) {
+            $query->where('role', '!=', UserRole::SUPER->value);
+        }
+
+        return $query;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return in_array(
+            auth()->user()?->role,
+            [
+                UserRole::SUPER->value,
+                UserRole::YORDAMCHI->value,
+            ]
+        );
+    }
 
     public static function form(Schema $schema): Schema
     {

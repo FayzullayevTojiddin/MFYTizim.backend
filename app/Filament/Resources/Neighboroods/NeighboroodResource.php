@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Filament\Resources\Neighboroods\RelationManagers\TasksRelationManager;
 
 class NeighboroodResource extends Resource
 {
@@ -43,7 +44,7 @@ class NeighboroodResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TasksRelationManager::class,
         ];
     }
 
@@ -51,6 +52,7 @@ class NeighboroodResource extends Resource
     {
         return [
             'index' => ListNeighboroods::route('/'),
+            'edit' => EditNeighborood::route('/{record}/edit'),
         ];
     }
 }

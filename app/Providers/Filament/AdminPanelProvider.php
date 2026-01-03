@@ -19,6 +19,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\StatsOverview;
+use App\Filament\Widgets\TopTaskUsersThisWeek;
 use App\Filament\Widgets\BlogPostsChart;
 use Filament\Actions\Action;
 
@@ -41,7 +42,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                StatsOverview::class
+                StatsOverview::class,
+                TopTaskUsersThisWeek::class,
             ])
             ->middleware([
                 EncryptCookies::class,

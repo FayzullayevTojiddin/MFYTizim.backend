@@ -19,8 +19,8 @@ class TasksTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
-                TextColumn::make('user.name')
-                    ->label('Foydalanuvchi')
+                TextColumn::make('neighborood.title')
+                    ->label('Mahalla')
                     ->searchable()
                     ->sortable()
                     ->placeholder('—'),

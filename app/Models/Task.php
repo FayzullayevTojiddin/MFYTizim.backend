@@ -11,7 +11,7 @@ class Task extends Model
 
     protected $fillable = [
         'task_category_id',
-        'user_id',
+        'neighborood_id',
         'description',
         'status',
         'file',
@@ -24,8 +24,8 @@ class Task extends Model
         return $this->belongsTo(TaskCategory::class, 'task_category_id');
     }
 
-    public function user()
+    public function neighborood()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Neighborood::class, 'neighborood_id');
     }
 }

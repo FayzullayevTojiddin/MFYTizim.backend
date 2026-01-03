@@ -29,7 +29,15 @@ class UserForm
                     ->afterStateHydrated(fn ($component) => $component->state('')),
                 
                 Select::make('role')
-                    ->options(UserRole::options())
+                    ->options(function () {
+                        $options = UserRole::options();
+
+                        if (auth()->user()?->role !== UserRole::SUPER->value) {
+                            unset($options[UserRole::SUPER->value]);
+                        }
+
+                        return $options;
+                    })
                     ->required(),
             ]);
     }
