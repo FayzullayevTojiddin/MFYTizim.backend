@@ -17,6 +17,11 @@ class TopTaskUsersThisWeek extends BaseWidget
 
     protected int | string | array $columnSpan = 'full';
 
+    public function getTableRecordKey($record): string
+    {
+        return (string) $record->neighborood_id;
+    }
+
     protected function getTableQuery(): Builder
     {
         return Task::query()
@@ -24,11 +29,8 @@ class TopTaskUsersThisWeek extends BaseWidget
                 'neighborood_id',
 
                 DB::raw('COUNT(*) as tasks_count'),
-
                 DB::raw("SUM(CASE WHEN status = 'apply' THEN 1 ELSE 0 END) as applied_count"),
-
                 DB::raw("SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count"),
-
                 DB::raw("SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count"),
             ])
             ->whereBetween('created_at', [
@@ -45,46 +47,34 @@ class TopTaskUsersThisWeek extends BaseWidget
             TextColumn::make('rank')
                 ->label('T/R')
                 ->rowIndex()
-                ->badge()
-                ->color('gray'),
+                ->badge(),
 
             TextColumn::make('neighborood.title')
-                ->label('Mahalla Nomi')
-                ->searchable()
-                ->sortable(),
+                ->label('Mahalla Nomi'),
 
             TextColumn::make('applied_count')
                 ->label('Qabul qilingan')
-                ->suffix(' ta')
                 ->badge()
-                ->color('success')
-                ->sortable(),
+                ->suffix(' ta')
+                ->color('success'),
 
             TextColumn::make('cancelled_count')
                 ->label('Bekor qilingan')
-                ->suffix(' ta')
                 ->badge()
-                ->color('danger')
-                ->sortable(),
+                ->suffix(' ta')
+                ->color('danger'),
 
             TextColumn::make('new_count')
                 ->label('Yangi')
-                ->suffix(' ta')
                 ->badge()
-                ->color('info')
-                ->sortable(),
+                ->suffix(' ta')
+                ->color('info'),
 
             TextColumn::make('tasks_count')
                 ->label('Jami')
-                ->suffix(' ta')
                 ->badge()
-                ->color('primary')
-                ->sortable(),
+                ->suffix(' ta')
+                ->color('primary'),
         ];
-    }
-
-    public function getTableRecordKey($record): string
-    {
-        return (string) $record->user_id;
     }
 }
