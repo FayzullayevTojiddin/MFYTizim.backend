@@ -77,4 +77,14 @@ class TopTaskUsersThisWeek extends BaseWidget
                 ->color('primary'),
         ];
     }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'tasks_count';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
 }
