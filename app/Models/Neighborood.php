@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Neighborood extends Model
 {
@@ -19,5 +20,15 @@ class Neighborood extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function meets(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Meet::class,
+            'meet_neighboroods',
+            'neighborood_id',
+            'meet_id'
+        );
     }
 }

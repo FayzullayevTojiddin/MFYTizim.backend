@@ -36,6 +36,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function neighborood()
     {
-        return $this->hasOne(Neighborood::class);
+        return $this->hasOne(Neighborood::class, 'user_id');
     }
 }

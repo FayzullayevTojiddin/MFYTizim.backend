@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->string('file')->nullable();
 
-            $table->string('status')->nullable('created');
+            $table->string('status')->nullable('new');
 
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
