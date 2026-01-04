@@ -25,21 +25,19 @@ class TopTaskUsersThisWeek extends BaseWidget
     protected function getTableQuery(): Builder
     {
         return Task::query()
-            ->select([
+            ->select(
                 'neighborood_id',
-                DB::raw('COUNT(*) as tasks_count'),
-                DB::raw("SUM(CASE WHEN status = 'apply' THEN 1 ELSE 0 END) as applied_count"),
-                DB::raw("SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count"),
-                DB::raw("SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count"),
-            ])
+                DB::raw('COUNT(*) as tasks_count')
+            )
             ->whereBetween('created_at', [
                 Carbon::now()->startOfWeek(),
                 Carbon::now()->endOfWeek(),
             ])
             ->groupBy('neighborood_id')
-            ->orderByDesc('tasks_count');
+            ->orderByRaw('tasks_count DESC'); // MUHIM
     }
 
+    // ❌ Filament sort va id qo‘shmasligi uchun
     protected function isTableSortingEnabled(): bool
     {
         return false;
@@ -50,32 +48,13 @@ class TopTaskUsersThisWeek extends BaseWidget
         return [
             TextColumn::make('rank')
                 ->label('T/R')
-                ->rowIndex()
-                ->badge(),
+                ->rowIndex(),
 
             TextColumn::make('neighborood.title')
                 ->label('Mahalla Nomi'),
 
-            TextColumn::make('applied_count')
-                ->label('Qabul qilingan')
-                ->badge()
-                ->suffix(' ta')
-                ->color('success'),
-
-            TextColumn::make('cancelled_count')
-                ->label('Bekor qilingan')
-                ->badge()
-                ->suffix(' ta')
-                ->color('danger'),
-
-            TextColumn::make('new_count')
-                ->label('Yangi')
-                ->badge()
-                ->suffix(' ta')
-                ->color('info'),
-
             TextColumn::make('tasks_count')
-                ->label('Jami')
+                ->label('Bajarilgan vazifalar soni')
                 ->badge()
                 ->suffix(' ta')
                 ->color('primary'),
