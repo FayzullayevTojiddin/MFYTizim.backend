@@ -34,10 +34,9 @@ class TopTaskUsersThisWeek extends BaseWidget
                 Carbon::now()->endOfWeek(),
             ])
             ->groupBy('neighborood_id')
-            ->orderByRaw('tasks_count DESC'); // MUHIM
+            ->orderByRaw('tasks_count DESC');
     }
 
-    // ❌ Filament sort va id qo‘shmasligi uchun
     protected function isTableSortingEnabled(): bool
     {
         return false;
@@ -59,5 +58,5 @@ class TopTaskUsersThisWeek extends BaseWidget
                 ->suffix(' ta')
                 ->color('primary'),
         ];
-    }
+    } 
 }
