@@ -15,7 +15,9 @@ class UserController extends Controller
             'password' => 'required'
         ]);
         
-        $user = User::where('email', $request->login)->first();
+        $user = User::with('neighborood')
+            ->where('email', $request->login)
+            ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return $this->error('Login yoki parol xato');
@@ -27,7 +29,14 @@ class UserController extends Controller
 
         return $this->success([
             'token' => $token,
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'neighborood_id' => $user->neighborood?->id,
+                'neighborood' => $user->neighborood,
+            ],
         ]);
     }
 

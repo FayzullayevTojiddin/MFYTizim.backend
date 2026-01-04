@@ -33,4 +33,9 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
         ];
     }
+
+    public function neighborood()
+    {
+        return $this->hasOne(Neighborood::class);
+    }
 }
