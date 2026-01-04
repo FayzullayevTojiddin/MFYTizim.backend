@@ -8,6 +8,8 @@ class UserController extends Controller
 {
     public function login(Request $request)
     {
-        dd($request);
+        return [
+            "key" => "value"
+        ];
     }
 }
