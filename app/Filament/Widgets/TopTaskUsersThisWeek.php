@@ -17,6 +17,8 @@ class TopTaskUsersThisWeek extends BaseWidget
 
     protected int | string | array $columnSpan = 'full';
 
+    protected static bool $isDiscovered = false;
+
     public function getTableRecordKey($record): string
     {
         return (string) $record->neighborood_id;

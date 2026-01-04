@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                StatsOverview::class,
+                // StatsOverview::class,
                 // TopTaskUsersThisWeek::class,
             ])
             ->middleware([
