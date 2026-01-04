@@ -27,7 +27,6 @@ class TopTaskUsersThisWeek extends BaseWidget
         return Task::query()
             ->select([
                 'neighborood_id',
-
                 DB::raw('COUNT(*) as tasks_count'),
                 DB::raw("SUM(CASE WHEN status = 'apply' THEN 1 ELSE 0 END) as applied_count"),
                 DB::raw("SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled_count"),
@@ -39,6 +38,11 @@ class TopTaskUsersThisWeek extends BaseWidget
             ])
             ->groupBy('neighborood_id')
             ->orderByDesc('tasks_count');
+    }
+
+    protected function isTableSortingEnabled(): bool
+    {
+        return false;
     }
 
     protected function getTableColumns(): array
@@ -76,15 +80,5 @@ class TopTaskUsersThisWeek extends BaseWidget
                 ->suffix(' ta')
                 ->color('primary'),
         ];
-    }
-
-    protected function getDefaultTableSortColumn(): ?string
-    {
-        return 'tasks_count';
-    }
-
-    protected function getDefaultTableSortDirection(): ?string
-    {
-        return 'desc';
     }
 }
