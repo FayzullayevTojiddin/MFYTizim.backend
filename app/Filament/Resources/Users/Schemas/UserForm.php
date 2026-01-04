@@ -18,7 +18,7 @@ class UserForm
             ->components([
                 Section::make("Foydalanuvchi ma'lumotlari")
                     ->schema([
-                        FileUpload::make('avatar')
+                        FileUpload::make('image')
                             ->label('Rasm')
                             ->image()
                             ->disk('public')
