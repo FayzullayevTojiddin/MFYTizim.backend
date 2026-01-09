@@ -26,12 +26,7 @@ class TaskController extends Controller
             'task_category_id'  => 'required|exists:task_categories,id',
             'latitude'          => 'required|numeric',
             'longitude'         => 'required|numeric',
-            'file' => 'nullable|file|max:5120|mimes:
-                jpg,jpeg,png,
-                pdf,
-                ppt,pptx,
-                txt
-            ',
+            'file' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,pdf,ppt,pptx,txt',
         ]);
 
         $data['neighborood_id'] = auth()->user()->neighborood?->id;
