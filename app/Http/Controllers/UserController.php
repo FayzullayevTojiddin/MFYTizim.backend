@@ -61,11 +61,12 @@ class UserController extends Controller
         }
         $stats = $neighborood->tasks()
             ->selectRaw("
-                SUM(status = 'new')       as new,
-                SUM(status = 'cancelled') as cancelled,
-                SUM(status = 'apply')     as apply
+                SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END)       AS new,
+                SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) AS cancelled,
+                SUM(CASE WHEN status = 'apply' THEN 1 ELSE 0 END)     AS apply
             ")
             ->first();
+
         return $this->response([
             'new'       => (int) $stats->new,
             'cancelled' => (int) $stats->cancelled,
