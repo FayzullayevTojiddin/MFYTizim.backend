@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TaskCategorySeeder::class,
             NeighboroodWithUserSeeder::class,
-            MeetSeeder::class
+            MeetSeeder::class,
+            TaskSeeder::class
         ]);
     }
 }
