@@ -2,15 +2,17 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Enums\UserRole;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\ActionGroup;
-use Filament\Tables\Table;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
-use App\Enums\UserRole;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 
 class UsersTable
 {
@@ -18,36 +20,78 @@ class UsersTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label("ID"),
-                TextColumn::make('name')    
-                    ->label("Foydalanuvchining Nomi"),
-                BadgeColumn::make('role')
-                    ->label("Darajasi")
-                    ->formatStateUsing(fn ($state) => UserRole::from($state)->label())
-                    ->color(fn ($state) => match ($state) {
-                        UserRole::SUPER->value => 'danger',
-                        UserRole::HOKIM->value => 'primary',
-                        UserRole::YORDAMCHI->value => 'warning',
-                        UserRole::ISHCHI->value => 'success',
-                        default => 'secondary',
-                    }),
-                TextColumn::make('email'),
+                ImageColumn::make('image')
+                    ->label('Rasm')
+                    ->circular()
+                    ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->name) . '&background=random'),
+
+                TextColumn::make('name')
+                    ->label('Ism')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->icon('heroicon-o-envelope'),
+
+                TextColumn::make('role')
+                    ->label('Rol')
+                    ->badge()
+                    ->color(fn (UserRole $state): string => match ($state) {
+                        UserRole::ISHCHI => 'gray',
+                        default => 'primary',
+                    })
+                    ->sortable(),
+
+                IconColumn::make('status')
+                    ->label('Holati')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+
+                TextColumn::make('last_seen_at')
+                    ->label('Oxirgi faollik')
+                    ->since()
+                    ->sortable()
+                    ->placeholder('Hali kirmagan'),
+
                 TextColumn::make('created_at')
-                    ->label("Yaratilingan Vaqti"),
+                    ->label('Yaratilgan')
+                    ->dateTime('d.m.Y H:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->searchable(['id', 'email', 'name'])
             ->filters([
-                //
+                SelectFilter::make('role')
+                    ->label('Rol')
+                    ->options(UserRole::class),
+
+                SelectFilter::make('status')
+                    ->label('Holati')
+                    ->options([
+                        true => 'Faol',
+                        false => 'Faol emas',
+                    ]),
             ])
+            ->filtersLayout(FiltersLayout::AboveContent)
+            ->filtersFormColumns(2)
+            ->deferFilters(false)
             ->recordActions([
-                ActionGroup::make([
-                    EditAction::make()->button(),
-                    DeleteAction::make()->button()
-                ]),
+                EditAction::make()
+                    ->iconButton(),
+
+                DeleteAction::make()
+                    ->iconButton(),
             ])
             ->toolbarActions([
-                //  
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 }

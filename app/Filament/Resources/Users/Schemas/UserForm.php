@@ -2,63 +2,73 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 use App\Enums\UserRole;
-use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class UserForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(4)
             ->components([
-                Section::make("Foydalanuvchi ma'lumotlari")
+                Section::make('Profil rasmi')
+                    ->description('Foydalanuvchi avatari')
                     ->schema([
                         FileUpload::make('image')
                             ->label('Rasm')
                             ->image()
-                            ->disk('public')
-                            ->directory('avatars')
-                            ->maxSize(1024)
-                            ->imagePreviewHeight('100')
-                            ->nullable(),
+                            ->avatar()
+                            ->imageEditor()
+                            ->circleCropper()
+                            ->directory('users')
+                            ->maxSize(2048)
+                            ->alignCenter(),
+                    ])
+                    ->columnSpan(1),
 
+                Section::make('Asosiy ma\'lumotlar')
+                    ->description('Foydalanuvchi haqida asosiy ma\'lumotlar')
+                    ->schema([
                         TextInput::make('name')
-                            ->required(),
+                            ->label('Ism')
+                            ->required()
+                            ->maxLength(255)
+                            ->prefixIcon('heroicon-o-user'),
+
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->email()
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255)
+                            ->prefixIcon('heroicon-o-envelope'),
+
+                        TextInput::make('password')
+                            ->label('Parol')
+                            ->password()
+                            ->revealable()
+                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->dehydrated(fn (?string $state): bool => filled($state))
+                            ->minLength(8)
+                            ->prefixIcon('heroicon-o-lock-closed'),
+
+                        Select::make('role')
+                            ->label('Rol')
+                            ->enum(UserRole::class)
+                            ->options(UserRole::class)
+                            ->default(UserRole::ISHCHI)
+                            ->required()
+                            ->native(false)
+                            ->prefixIcon('heroicon-o-shield-check'),
                     ])
                     ->columns(2)
-                    ->columnSpanFull(),
-                Section::make([
-                    TextInput::make('email')
-                        ->required()
-                        ->email(),
-                    
-                    TextInput::make('password')
-                        ->label('Parol')
-                        ->password()
-                        ->revealable()
-                        ->dehydrated(fn ($state) => filled($state))
-                        ->required(fn (string $context): bool => $context === 'create')
-                        ->afterStateHydrated(fn ($component) => $component->state('')),
-                    
-                    Select::make('role')
-                        ->options(function () {
-                            $options = UserRole::options();
-
-                            if (auth()->user()?->role !== UserRole::SUPER->value) {
-                                unset($options[UserRole::SUPER->value]);
-                            }
-
-                            return $options;
-                        })
-                        ->required(),
-                ])
-                ->columns(3)
-                ->columnSpanFull(),
+                    ->columnSpan(3),
             ]);
     }
 }

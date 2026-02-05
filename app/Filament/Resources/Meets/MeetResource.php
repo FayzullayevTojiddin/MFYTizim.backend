@@ -5,15 +5,17 @@ namespace App\Filament\Resources\Meets;
 use App\Filament\Resources\Meets\Pages\CreateMeet;
 use App\Filament\Resources\Meets\Pages\EditMeet;
 use App\Filament\Resources\Meets\Pages\ListMeets;
+use App\Filament\Resources\Meets\RelationManagers\MeetWorkersRelationManager;
 use App\Filament\Resources\Meets\Schemas\MeetForm;
 use App\Filament\Resources\Meets\Tables\MeetsTable;
+use App\Filament\Resources\Meets\Widgets\MeetStatsWidget;
 use App\Models\Meet;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class MeetResource extends Resource
 {
@@ -21,13 +23,15 @@ class MeetResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
+    protected static string|UnitEnum|null $navigationGroup = 'Boshqaruv';
+
     protected static ?string $navigationLabel = 'Uchrashuvlar';
 
     protected static ?string $modelLabel = 'Uchrashuv';
 
     protected static ?string $pluralModelLabel = 'Uchrashuvlar';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Uchrashuvlar boshqaruvi';
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {
@@ -42,7 +46,14 @@ class MeetResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            MeetWorkersRelationManager::class
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            MeetStatsWidget::class,
         ];
     }
 

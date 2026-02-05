@@ -5,32 +5,35 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Task;
 use App\Models\TaskCategory;
-use App\Models\Neighborood;
+use App\Models\Worker;
+use Illuminate\Support\Carbon;
 
 class TaskSeeder extends Seeder
 {
     public function run(): void
     {
-        $categoryIds   = TaskCategory::pluck('id');
-        $neighboroodIds = Neighborood::pluck('id');
+        $categoryIds = TaskCategory::pluck('id');
+        $workerIds = Worker::pluck('id');
 
-        if ($categoryIds->isEmpty() || $neighboroodIds->isEmpty()) {
-            $this->command->warn('TaskSeeder: category yoki neighborood topilmadi');
+        if ($categoryIds->isEmpty() || $workerIds->isEmpty()) {
+            $this->command->warn('TaskSeeder: category yoki worker topilmadi');
             return;
         }
 
-        $totalTasks = 200;
-
-        for ($i = 1; $i <= $totalTasks; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
+            $isCompleted = (bool) rand(0, 1);
+            $deadlineAt = Carbon::now()
+                ->subDays(rand(-30, 30))
+                ->setHour(rand(9, 18))
+                ->setMinute(0);
 
             Task::create([
                 'task_category_id' => $categoryIds->random(),
-                'neighborood_id'   => $neighboroodIds->random(),
-                'description'      => "Avtomatik yaratilgan vazifa #{$i}",
-                'status'           => collect(['new', 'in_progress', 'done'])->random(),
-                'file'             => null,
-                'latitude'         => 41.3 + rand(-1000, 1000) / 10000,
-                'longitude'        => 69.2 + rand(-1000, 1000) / 10000,
+                'worker_id'        => $workerIds->random(),
+                'deadline_at'      => $deadlineAt,
+                'completed_at'     => $isCompleted ? $deadlineAt->copy()->subHours(rand(1, 48)) : null,
+                'count'            => rand(1, 50),
+                'status'           => $isCompleted,
             ]);
         }
     }

@@ -23,7 +23,9 @@ class DatabaseSeeder extends Seeder
             TaskCategorySeeder::class,
             NeighboroodWithUserSeeder::class,
             MeetSeeder::class,
-            TaskSeeder::class
+            TaskSeeder::class,
+            MyTaskSeeder::class,
+            WorkerLocationSeeder::class
         ]);
     }
 }

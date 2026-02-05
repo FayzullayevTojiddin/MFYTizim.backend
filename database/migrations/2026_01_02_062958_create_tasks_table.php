@@ -10,24 +10,12 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('task_category_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->foreignId('neighborood_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->text('description')->nullable();
-
-            $table->string('file')->nullable();
-
-            $table->string('status')->nullable()->default('new');
-
-            $table->decimal('latitude', 10, 7)->nullable();
-            $table->decimal('longitude', 10, 7)->nullable();
-
+            $table->foreignId('task_category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('worker_id')->constrained()->cascadeOnDelete();
+            $table->dateTime('deadline_at');
+            $table->dateTime('completed_at')->nullable();
+            $table->integer('count')->default(0);
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

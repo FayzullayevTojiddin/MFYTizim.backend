@@ -8,34 +8,49 @@ use Illuminate\Notifications\Notifiable;
 use App\Enums\UserRole;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->role !== UserRole::ISHCHI->value;
-    }
-
     protected $fillable = [
         'name',
         'role',
         'email',
         'password',
-        'image'
+        'image',
+        'last_seen_at',
+        'status',
     ];
-    
+
+    protected $hidden = [
+        'password',
+    ];
+
     protected function casts(): array
     {
         return [
             'password' => 'hashed',
+            'role' => UserRole::class,
+            'status' => 'boolean',
+            'last_seen_at' => 'datetime',
         ];
     }
 
-    public function neighborood()
+    public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasOne(Neighborood::class, 'user_id');
+        return $this->role !== UserRole::ISHCHI;
+    }
+
+    public function isOnline(): bool
+    {
+        return $this->last_seen_at && $this->last_seen_at->diffInMinutes(now()) < 5;
+    }
+
+    public function worker(): HasOne
+    {
+        return $this->hasOne(Worker::class);
     }
 }

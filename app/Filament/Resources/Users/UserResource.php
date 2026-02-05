@@ -7,21 +7,22 @@ use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
+use App\Filament\Resources\Users\Widgets\UserStatsWidget;
 use App\Models\User;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Enums\UserRole;
-use Illuminate\Database\Eloquent\Builder;
+use UnitEnum;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUser;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Tizim';
 
     protected static ?string $navigationLabel = 'Foydalanuvchilar';
 
@@ -29,31 +30,7 @@ class UserResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Foydalanuvchilar';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Tizim';
-
-    protected static ?string $recordTitleAttribute = 'name';
-
-    public static function getEloquentQuery(): Builder
-    {
-        $query = parent::getEloquentQuery();
-
-        if (auth()->user()?->role !== UserRole::SUPER->value) {
-            $query->where('role', '!=', UserRole::SUPER->value);
-        }
-
-        return $query;
-    }
-
-    public static function canViewAny(): bool
-    {
-        return in_array(
-            auth()->user()?->role,
-            [
-                UserRole::SUPER->value,
-                UserRole::YORDAMCHI->value,
-            ]
-        );
-    }
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {
@@ -76,6 +53,15 @@ class UserResource extends Resource
     {
         return [
             'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit' => EditUser::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            UserStatsWidget::class,
         ];
     }
 }

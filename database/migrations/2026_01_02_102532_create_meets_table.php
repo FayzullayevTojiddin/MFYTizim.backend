@@ -10,9 +10,13 @@ return new class extends Migration
     {
         Schema::create('meets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->date('date_at');
+            $table->string('address');
+            $table->json('location')->nullable();
+            $table->dateTime('meet_at');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
