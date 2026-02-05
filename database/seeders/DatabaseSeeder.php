@@ -18,14 +18,5 @@ class DatabaseSeeder extends Seeder
             'password' => "As123456",
             'role' => "super"
         ]);
-
-        $this->call([
-            TaskCategorySeeder::class,
-            NeighboroodWithUserSeeder::class,
-            MeetSeeder::class,
-            TaskSeeder::class,
-            MyTaskSeeder::class,
-            WorkerLocationSeeder::class
-        ]);
     }
 }

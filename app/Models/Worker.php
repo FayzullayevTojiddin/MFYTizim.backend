@@ -16,6 +16,7 @@ class Worker extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'phone_number'
     ];
 
     public function user(): BelongsTo

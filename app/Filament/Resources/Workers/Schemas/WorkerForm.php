@@ -45,9 +45,15 @@ class WorkerForm
                             ->required()
                             ->maxLength(255)
                             ->prefixIcon('heroicon-o-briefcase'),
+
+                        TextInput::make('phone_number')
+                            ->label('Telefon Raqam')
+                            ->required()
+                            ->maxLength(255)
+                            ->prefixIcon('heroicon-o-phone'),
                     ])
-                    ->columns(2)
-                    ->columnSpanFull()
+                    ->columns(3)
+                    ->columnSpanFull(),
             ]);
     }
 }
