@@ -62,7 +62,8 @@ class WorkerRating extends Page implements HasTable
                     ->label('Ism')
                     ->searchable()
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->limit(20),
 
                 TextColumn::make('title')
                     ->label('Lavozim')

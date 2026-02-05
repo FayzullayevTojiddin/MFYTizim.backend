@@ -6,6 +6,8 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -25,7 +27,34 @@ class TaskForm
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->prefixIcon('heroicon-o-tag'),
+                            ->prefixIcon('heroicon-o-tag')
+                            ->createOptionForm([
+                                Section::make()
+                                    ->schema([
+                                        TextInput::make('title')
+                                            ->label('Kategoriya nomi')
+                                            ->required()
+                                            ->maxLength(255),
+
+                                        Select::make('status')
+                                            ->label('Holat')
+                                            ->options([
+                                                1 => 'Faol',
+                                                0 => 'Nofaol',
+                                            ])
+                                            ->default(1)
+                                            ->required(),
+                                        
+                                        Textarea::make('description')
+                                            ->label('Izoh')
+                                            ->rows(3)
+                                            ->maxLength(500)
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->columns(2),
+                            ])
+                            ->createOptionModalHeading('Yangi kategoriya yaratish')
+                            ->columnSpan(2),
 
                         Select::make('worker_id')
                             ->label('Ishchi')

@@ -28,12 +28,6 @@ class WorkersTable
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('user.email')
-                    ->label('Email')
-                    ->searchable()
-                    ->copyable()
-                    ->icon('heroicon-o-envelope'),
-
                 TextColumn::make('title')
                     ->label('Lavozim')
                     ->searchable()

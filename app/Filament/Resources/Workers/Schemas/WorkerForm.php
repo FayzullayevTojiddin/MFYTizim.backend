@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class WorkerForm
 {
@@ -19,6 +20,10 @@ class WorkerForm
                     ->schema([
                         Select::make('user_id')
                             ->label('Foydalanuvchi')
+                            ->getOptionLabelFromRecordUsing(
+                                fn ($record) => Str::limit($record->name, 15)
+                            )
+
                             ->relationship('user', 'name', fn ($query) => $query->where('role', UserRole::ISHCHI))
                             ->searchable()
                             ->preload()
