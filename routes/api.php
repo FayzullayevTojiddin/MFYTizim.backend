@@ -1,7 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\AuthController;
 use Illuminate\Support\Facades\Route;
 
-// Route::post('/auth', function ($id) {
-    
-// });
+Route::post('/auth/login', AuthController::class);
