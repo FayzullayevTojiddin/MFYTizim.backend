@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Task;
 
 use App\Models\Task;
+use App\Models\TaskCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,7 @@ class GetTaskController
         }
 
         $task->load(['category', 'myTasks']);
+        $category = TaskCategory::find($task->task_category_id);
 
         $approvedCount = $task->myTasks->where('status', true)->count();
 
@@ -26,7 +28,10 @@ class GetTaskController
             'data' => [
                 'id' => $task->id,
                 'task_category_id' => $task->task_category_id,
-                'category' => $task->category(),
+                'category' => [
+                    'id' => $category->id,
+                    'name' => $category->title
+                ],
                 'count' => $task->count,
                 'approved_count' => $approvedCount,
                 'deadline_at' => $task->deadline_at->toISOString(),
