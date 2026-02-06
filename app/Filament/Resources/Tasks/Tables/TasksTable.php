@@ -25,11 +25,6 @@ class TasksTable
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('worker.title')
-                    ->label('Ishchi')
-                    ->sortable()
-                    ->searchable(),
-
                 TextColumn::make('worker.user.name')
                     ->label('Ishchi ismi')
                     ->sortable()
