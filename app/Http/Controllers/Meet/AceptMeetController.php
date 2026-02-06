@@ -57,6 +57,7 @@ class AceptMeetController extends Controller
         $meetWorker->update([
             'status' => $request->status,
             'responded_at' => now(),
+            'seen_at' => now()
         ]);
 
         $statusLabel = $request->status === 'accepted' 
