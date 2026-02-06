@@ -33,7 +33,7 @@ class GetListTaskController
                 'task_category_id' => $task->task_category_id,
                 'category' => [
                     'id' => $task->category->id,
-                    'name' => $task->category->name,
+                    'name' => $task->category->title,
                 ],
                 'count' => $task->count,
                 'approved_count' => $approvedCount,
