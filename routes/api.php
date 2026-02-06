@@ -4,6 +4,7 @@ use App\Http\Controllers\Meet\AceptMeetController;
 use App\Http\Controllers\Meet\GetListMeetController;
 use App\Http\Controllers\Task\GetListTaskController;
 use App\Http\Controllers\Task\GetTaskController;
+use App\Http\Controllers\Task\ListTaskCategoryController;
 use App\Http\Controllers\Task\PostTaskController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\GetProfileController;
@@ -31,4 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/meets/{meet}', AceptMeetController::class);
 
     Route::get('/rank', GetRankWorkerController::class);
+
+    Route::get('/task-categories', ListTaskCategoryController::class);
 });
