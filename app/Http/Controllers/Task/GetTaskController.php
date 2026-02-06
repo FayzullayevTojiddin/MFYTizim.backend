@@ -26,10 +26,7 @@ class GetTaskController
             'data' => [
                 'id' => $task->id,
                 'task_category_id' => $task->task_category_id,
-                'category' => [
-                    'id' => $task->category->id,
-                    'name' => $task->category->title,
-                ],
+                'category' => $task->category(),
                 'count' => $task->count,
                 'approved_count' => $approvedCount,
                 'deadline_at' => $task->deadline_at->toISOString(),
