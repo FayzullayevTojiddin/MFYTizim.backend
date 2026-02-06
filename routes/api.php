@@ -6,6 +6,7 @@ use App\Http\Controllers\Task\GetListTaskController;
 use App\Http\Controllers\Task\GetTaskController;
 use App\Http\Controllers\Task\PostTaskController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\GetProfileController;
 use App\Http\Controllers\Work\GetRankWorkerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\LogoutController;
@@ -16,6 +17,8 @@ Route::post('/auth/login', AuthController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout', LogoutController::class);
+
+    Route::get('/profile', GetProfileController::class);
 
     Route::get('/tasks', GetListTaskController::class);
 
