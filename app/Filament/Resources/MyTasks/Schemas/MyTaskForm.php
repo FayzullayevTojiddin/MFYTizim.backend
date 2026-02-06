@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class MyTaskForm
 {
@@ -44,11 +45,37 @@ class MyTaskForm
                             ->label('Fayllar')
                             ->multiple()
                             ->directory('my-tasks')
+                            ->disk('public')
                             ->maxSize(5120)
                             ->maxFiles(5)
                             ->reorderable()
-                            ->image()
-                            ->imageEditor(),
+                            ->acceptedFileTypes(['image/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
+                            ->afterStateHydrated(function ($component, $state) {
+                                if (!$state) return;
+                                
+                                $paths = collect($state)->map(function ($file) {
+                                    return is_array($file) ? $file['path'] : $file;
+                                })->filter()->toArray();
+                                
+                                $component->state($paths);
+                            })
+                            ->dehydrateStateUsing(function ($state) {
+                                if (!$state) return [];
+                                
+                                return collect($state)->map(function ($path) {
+                                    if (is_array($path)) return $path;
+                                    
+                                    $fullPath = Storage::disk('public')->path($path);
+                                    
+                                    return [
+                                        'name' => basename($path),
+                                        'path' => $path,
+                                        'url' => '/storage/' . $path,
+                                        'size' => file_exists($fullPath) ? filesize($fullPath) : 0,
+                                        'mime' => file_exists($fullPath) ? mime_content_type($fullPath) : 'application/octet-stream',
+                                    ];
+                                })->toArray();
+                            }),
 
                         Grid::make(2)
                             ->schema([
