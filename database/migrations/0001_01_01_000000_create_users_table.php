@@ -20,6 +20,8 @@ return new class extends Migration
             $table->dateTime('last_seen_at')->nullable();
             $table->boolean('status')->default(true);
 
+            $table->string('fcm')->nullable();
+
             $table->timestamps();
         });
 

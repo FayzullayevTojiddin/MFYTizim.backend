@@ -23,7 +23,7 @@ class PostTaskController
         $request->validate([
             'description' => ['nullable', 'string', 'max:1000'],
             'files' => ['required', 'array', 'min:1'],
-            'files.*' => ['file', 'max:10240', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx'],
+            'files.*' => ['file', 'max:51200', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
         ]);

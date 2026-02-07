@@ -15,6 +15,7 @@ class AuthController
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'fcm' => ['required', 'string'],
         ]);
 
         $user = User::with('worker')->where('email', $request->email)->first();
@@ -32,6 +33,7 @@ class AuthController
         }
 
         $user->tokens()->delete();
+        $user->update(['fcm' => $request->fcm]);
 
         $token = $user->createToken('mobile-app')->plainTextToken;
 
