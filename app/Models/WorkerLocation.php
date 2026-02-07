@@ -17,6 +17,7 @@ class WorkerLocation extends Model
         'address',
         'accuracy',
         'battery_level',
+        'is_real_time',
     ];
 
     protected function casts(): array

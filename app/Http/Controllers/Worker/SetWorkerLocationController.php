@@ -26,6 +26,7 @@ class SetWorkerLocationController extends Controller
             'address' => 'nullable|string|max:500',
             'accuracy' => 'nullable|numeric|min:0',
             'battery_level' => 'nullable|numeric|between:0,100',
+            'is_real_time' => 'nullable|boolean',
         ]);
 
         $location = WorkerLocation::create([
@@ -35,6 +36,7 @@ class SetWorkerLocationController extends Controller
             'address' => $validated['address'] ?? null,
             'accuracy' => $validated['accuracy'] ?? null,
             'battery_level' => $validated['battery_level'] ?? null,
+            'is_real_time' => $validated['is_real_time'] ?? false,
         ]);
 
         return response()->json([

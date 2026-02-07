@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->decimal('accuracy', 8, 2)->nullable();
             $table->decimal('battery_level', 5, 2)->nullable();
+
+            $table->boolean('is_real_time')->default(false);
             $table->timestamps();
         });
     }
