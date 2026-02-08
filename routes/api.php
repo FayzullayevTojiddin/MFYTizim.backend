@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Location\BatchWorkerLocationController;
 use App\Http\Controllers\Meet\AceptMeetController;
 use App\Http\Controllers\Meet\GetListMeetController;
 use App\Http\Controllers\Task\GetListTaskController;
@@ -31,4 +32,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/rank', GetRankWorkerController::class);
 
     Route::post('/location', SetWorkerLocationController::class);
+    Route::post('/location/batch', BatchWorkerLocationController::class);
 });
