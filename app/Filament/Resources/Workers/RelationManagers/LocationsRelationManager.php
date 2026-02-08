@@ -6,12 +6,11 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
-use Filament\Forms\Components\DatePicker;
 
 class LocationsRelationManager extends RelationManager
 {
@@ -45,6 +44,14 @@ class LocationsRelationManager extends RelationManager
                         default => 'gray',
                     })
                     ->badge(),
+
+                IconColumn::make('is_real_time')
+                    ->label('Turi')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-bolt')
+                    ->falseIcon('heroicon-o-clock')
+                    ->trueColor('danger')
+                    ->falseColor('info'),
 
                 TextColumn::make('created_at')
                     ->label('Vaqt')
