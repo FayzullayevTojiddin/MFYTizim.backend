@@ -11,3 +11,6 @@ Artisan::command('inspire', function () {
 Schedule::command('location:request')
     ->hourlyAt(0)
     ->between('09:00', '21:00');
+
+Schedule::command('task:daily-attendance')
+    ->dailyAt('08:00');
