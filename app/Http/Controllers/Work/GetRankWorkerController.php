@@ -22,10 +22,8 @@ class GetRankWorkerController extends Controller
             ], 404);
         }
 
-        // Barcha workerlar reytingi (1 soatga cache)
-        $rankings = $this->getCachedRankings();
+        $rankings = $this->getRankings();
 
-        // O'zimning o'rnimni topish
         $myRank = null;
         $myStats = null;
 
@@ -37,10 +35,8 @@ class GetRankWorkerController extends Controller
             }
         }
 
-        // Top 10 workerlar
         $topWorkers = array_slice($rankings, 0, 10);
 
-        // Reyting ma'lumotlari
         $topWorkers = array_map(function ($item, $index) {
             return [
                 'rank' => $index + 1,
@@ -82,23 +78,21 @@ class GetRankWorkerController extends Controller
         ]);
     }
 
-    protected function getCachedRankings(): array
+    protected function getRankings(): array
     {
-        return Cache::remember('worker_rankings', 3600, function () {
-            return Worker::query()
-                ->with('user:id,name,image')
-                ->withCount([
-                    'tasks as total_tasks',
-                    'tasks as completed_tasks' => fn (Builder $q) => $q->whereNotNull('completed_at'),
-                    'tasks as pending_tasks' => fn (Builder $q) => $q->whereNull('completed_at'),
-                    'tasks as overdue_tasks' => fn (Builder $q) => $q
-                        ->whereNull('completed_at')
-                        ->where('deadline_at', '<', now()),
-                ])
-                ->orderByDesc('completed_tasks')
-                ->orderBy('overdue_tasks')
-                ->get()
-                ->toArray();
-        });
+        return Worker::query()
+            ->with('user:id,name,image')
+            ->withCount([
+                'tasks as total_tasks',
+                'tasks as completed_tasks' => fn (Builder $q) => $q->whereNotNull('completed_at'),
+                'tasks as pending_tasks' => fn (Builder $q) => $q->whereNull('completed_at'),
+                'tasks as overdue_tasks' => fn (Builder $q) => $q
+                    ->whereNull('completed_at')
+                    ->where('deadline_at', '<', now()),
+            ])
+            ->orderByDesc('completed_tasks')
+            ->orderBy('overdue_tasks')
+            ->get()
+            ->toArray();
     }
 }
