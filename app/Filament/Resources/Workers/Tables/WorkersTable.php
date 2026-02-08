@@ -8,8 +8,6 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 
 class WorkersTable
