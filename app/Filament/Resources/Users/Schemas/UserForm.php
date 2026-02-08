@@ -27,8 +27,9 @@ class UserForm
                             ->imageEditor()
                             ->circleCropper()
                             ->directory('users')
-                            ->maxSize(2048)
+                            ->disk('public')
                             ->visibility('public')
+                            ->maxSize(2048)
                             ->alignCenter(),
                     ])
                     ->columnSpan(1),
