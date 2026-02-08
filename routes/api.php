@@ -12,11 +12,12 @@ use App\Http\Controllers\User\GetProfileController;
 use App\Http\Controllers\User\LogoutController;
 use App\Http\Controllers\Work\GetRankWorkerController;
 use App\Http\Controllers\Worker\SetWorkerLocationController;
+use App\Http\Middleware\UpdateLastSeen;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', AuthController::class);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', UpdateLastSeen::class])->group(function () {
     Route::delete('/logout', LogoutController::class);
 
     Route::get('/profile', GetProfileController::class);
