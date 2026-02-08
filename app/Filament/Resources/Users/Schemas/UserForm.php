@@ -28,6 +28,7 @@ class UserForm
                             ->circleCropper()
                             ->directory('users')
                             ->maxSize(2048)
+                            ->disk('publics')
                             ->visibility('public')
                             ->alignCenter(),
                     ])
