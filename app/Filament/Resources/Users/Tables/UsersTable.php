@@ -23,6 +23,7 @@ class UsersTable
                 ImageColumn::make('image')
                     ->label('Rasm')
                     ->circular()
+                    ->disk('public')
                     ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->name) . '&background=random'),
 
                 TextColumn::make('name')
