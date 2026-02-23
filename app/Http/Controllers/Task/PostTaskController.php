@@ -21,25 +21,37 @@ class PostTaskController
         }
 
         $request->validate([
-            'description' => ['nullable', 'string', 'max:1000'],
-            'files' => ['required', 'array', 'min:1'],
+            'description' => ['nullable', 'string', 'max:2000'],
+            'files' => ['nullable', 'array'],
             'files.*' => ['file', 'max:51200', 'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
         ]);
 
+        // Kamida description yoki files bo'lishi kerak
+        if (!$request->filled('description') && !$request->hasFile('files')) {
+            return response()->json([
+                'message' => 'Kamida tavsif yoki fayl yuborish kerak',
+                'errors' => [
+                    'description' => ['Kamida tavsif yoki fayl yuborish kerak'],
+                ],
+            ], 422);
+        }
+
         $uploadedFiles = [];
 
-        foreach ($request->file('files') as $file) {
-            $path = $file->store('tasks/' . $task->id, 'public');
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('tasks/' . $task->id, 'public');
 
-            $uploadedFiles[] = [
-                'name' => $file->getClientOriginalName(),
-                'path' => $path,
-                'url' => '/storage/' . $path,
-                'size' => $file->getSize(),
-                'mime' => $file->getMimeType(),
-            ];
+                $uploadedFiles[] = [
+                    'name' => $file->getClientOriginalName(),
+                    'path' => $path,
+                    'url' => '/storage/' . $path,
+                    'size' => $file->getSize(),
+                    'mime' => $file->getMimeType(),
+                ];
+            }
         }
 
         $location = null;
@@ -52,8 +64,8 @@ class PostTaskController
 
         $myTask = MyTask::create([
             'task_id' => $task->id,
-            'description' => $request->description,
-            'files' => $uploadedFiles,
+            'description' => $request->input('description'),
+            'files' => !empty($uploadedFiles) ? $uploadedFiles : null,
             'location' => $location,
             'status' => false,
         ]);
