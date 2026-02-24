@@ -5,6 +5,9 @@ namespace App\Filament\Resources\Meets\Pages;
 use App\Filament\Resources\Meets\MeetResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\Log;
+use Kreait\Firebase\Exception\Messaging\NotFound;
+use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 use Kreait\Firebase\Messaging\CloudMessage;
 
 class CreateMeet extends CreateRecord
@@ -53,8 +56,25 @@ class CreateMeet extends CreateRecord
 
                 app('firebase.messaging')->send($message);
                 $sentCount++;
+
+                Log::info("Meet FCM yuborildi", [
+                    'meet_id' => $meet->id,
+                    'worker_id' => $worker->id,
+                    'user_name' => $user->name,
+                ]);
+            } catch (NotFound | InvalidMessage $e) {
+                Log::warning("Meet FCM — token eskirgan, tozalandi", [
+                    'meet_id' => $meet->id,
+                    'worker_id' => $worker->id,
+                    'error' => $e->getMessage(),
+                ]);
+                $user->update(['fcm' => null]);
             } catch (\Exception $e) {
-                continue;
+                Log::error("Meet FCM — xatolik", [
+                    'meet_id' => $meet->id,
+                    'worker_id' => $worker->id,
+                    'error' => $e->getMessage(),
+                ]);
             }
         }
 

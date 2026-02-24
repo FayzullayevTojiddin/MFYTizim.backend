@@ -6,6 +6,9 @@ use App\Filament\Resources\Meets\MeetResource;
 use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Log;
+use Kreait\Firebase\Exception\Messaging\NotFound;
+use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 use Kreait\Firebase\Messaging\CloudMessage;
 
 class EditMeet extends EditRecord
@@ -69,8 +72,25 @@ class EditMeet extends EditRecord
 
                 app('firebase.messaging')->send($message);
                 $sentCount++;
+
+                Log::info("EditMeet FCM yuborildi", [
+                    'meet_id' => $meet->id,
+                    'worker_id' => $worker->id,
+                    'user_name' => $user->name,
+                ]);
+            } catch (NotFound | InvalidMessage $e) {
+                Log::warning("EditMeet FCM — token eskirgan, tozalandi", [
+                    'meet_id' => $meet->id,
+                    'worker_id' => $worker->id,
+                    'error' => $e->getMessage(),
+                ]);
+                $user->update(['fcm' => null]);
             } catch (\Exception $e) {
-                continue;
+                Log::error("EditMeet FCM — xatolik", [
+                    'meet_id' => $meet->id,
+                    'worker_id' => $worker->id,
+                    'error' => $e->getMessage(),
+                ]);
             }
         }
 
