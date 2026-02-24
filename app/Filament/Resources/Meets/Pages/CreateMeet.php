@@ -43,8 +43,11 @@ class CreateMeet extends CreateRecord
                     ->withData([
                         'type' => 'meet_invite',
                         'meet_id' => (string) $meet->id,
-                        'title' => $meet->title,
-                        'body' => 'Uchrashuvga taklif qilindingiz! Qabul yoki rad eting.',
+                        'title' => 'Yangi uchrashuv: ' . $meet->title,
+                        'body' => $meet->meet_at->format('d.m.Y H:i') . ' — ' . $meet->address,
+                        'description' => $meet->description ?? '',
+                        'address' => $meet->address ?? '',
+                        'meet_time' => $meet->meet_at->format('H:i'),
                     ])
                     ->withHighestPossiblePriority();
 
