@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Exception\Messaging\NotFound;
 use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 
 class EditWorker extends EditRecord
 {
@@ -41,6 +42,10 @@ class EditWorker extends EditRecord
 
                     try {
                         $message = CloudMessage::withTarget('token', $user->fcm)
+                            ->withNotification(FirebaseNotification::create(
+                                'GPS so\'rov',
+                                'Joylashuvingiz so\'ralmoqda...'
+                            ))
                             ->withData(['type' => 'location_request'])
                             ->withHighestPossiblePriority();
 

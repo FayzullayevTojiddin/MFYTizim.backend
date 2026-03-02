@@ -36,15 +36,18 @@ class MeetWorkersRelationManager extends RelationManager
                 TextColumn::make('pivot.status')
                     ->label('Holati')
                     ->badge()
+                    ->getStateUsing(fn ($record) => $record->pivot->status ?? 'pending')
                     ->color(fn (string $state) => match ($state) {
                         'pending' => 'warning',
                         'accepted' => 'success',
-                        'declined' => 'danger',
+                        'rejected' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state) => match ($state) {
                         'pending' => 'Kutilmoqda',
                         'accepted' => 'Qabul qildi',
-                        'declined' => 'Rad etdi',
+                        'rejected' => 'Rad etdi',
+                        default => $state,
                     }),
 
                 IconColumn::make('pivot.seen_at')
@@ -56,13 +59,15 @@ class MeetWorkersRelationManager extends RelationManager
                     ->trueColor('success')
                     ->falseColor('gray'),
 
-                TextColumn::make('pivot.seen_at')
+                TextColumn::make('seen_at_text')
                     ->label('Ko\'rgan vaqti')
+                    ->getStateUsing(fn ($record) => $record->pivot->seen_at)
                     ->dateTime('d.m.Y H:i')
                     ->placeholder('Ko\'rmagan'),
 
-                TextColumn::make('pivot.responded_at')
+                TextColumn::make('responded_at_text')
                     ->label('Javob vaqti')
+                    ->getStateUsing(fn ($record) => $record->pivot->responded_at)
                     ->dateTime('d.m.Y H:i')
                     ->placeholder('Javob bermagan'),
             ])
