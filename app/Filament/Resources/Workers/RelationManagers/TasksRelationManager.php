@@ -67,23 +67,27 @@ class TasksRelationManager extends RelationManager
                     ->label('Kategoriya')
                     ->badge()
                     ->color('primary')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('count')
                     ->label('Soni')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('deadline_at')
                     ->label('Muddat')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->color(fn ($record) => $record->isOverdue() ? 'danger' : 'default'),
+                    ->color(fn ($record) => $record->isOverdue() ? 'danger' : 'default')
+                    ->alignCenter(),
 
                 TextColumn::make('completed_at')
                     ->label('Bajarilgan')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->placeholder('Hali bajarilmagan'),
+                    ->placeholder('Hali bajarilmagan')
+                    ->alignCenter(),
 
                 IconColumn::make('status')
                     ->label('Holati')
@@ -91,7 +95,8 @@ class TasksRelationManager extends RelationManager
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
-                    ->falseColor('danger'),
+                    ->falseColor('danger')
+                    ->alignCenter(),
             ])
             ->filters([
                 SelectFilter::make('task_category_id')

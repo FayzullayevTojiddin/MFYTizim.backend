@@ -24,19 +24,22 @@ class UsersTable
                     ->label('Rasm')
                     ->circular()
                     ->disk('public')
-                    ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->name) . '&background=random'),
+                    ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->name) . '&background=random')
+                    ->alignCenter(),
 
                 TextColumn::make('name')
                     ->label('Ism')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable()
                     ->copyable()
-                    ->icon('heroicon-o-envelope'),
+                    ->icon('heroicon-o-envelope')
+                    ->alignCenter(),
 
                 TextColumn::make('role')
                     ->label('Rol')
@@ -45,7 +48,8 @@ class UsersTable
                         UserRole::ISHCHI => 'gray',
                         default => 'primary',
                     })
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 IconColumn::make('status')
                     ->label('Holati')
@@ -53,18 +57,21 @@ class UsersTable
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
-                    ->falseColor('danger'),
+                    ->falseColor('danger')
+                    ->alignCenter(),
 
                 TextColumn::make('last_seen_at')
                     ->label('Oxirgi faollik')
                     ->since()
                     ->sortable()
-                    ->placeholder('Hali kirmagan'),
+                    ->placeholder('Hali kirmagan')
+                    ->alignCenter(),
 
                 TextColumn::make('created_at')
                     ->label('Yaratilgan')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

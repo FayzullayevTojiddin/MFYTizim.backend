@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MyTasks\Tables;
 
+use App\Filament\Resources\MyTasks\MyTaskResource;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -25,25 +26,29 @@ class MyTasksTable
                     ->label('Kategoriya')
                     ->badge()
                     ->color('primary')
-                    ->sortable(),
-
-                TextColumn::make('task.worker.title')
-                    ->label('Ishchi lavozimi')
                     ->sortable()
-                    ->searchable(),
+                    ->alignCenter(),
 
-                TextColumn::make('description')
-                    ->label('Tavsif')
-                    ->limit(40)
-                    ->tooltip(fn ($record) => $record->description)
-                    ->searchable(),
+                TextColumn::make('task.worker.user.name')
+                    ->label('Ishchi')
+                    ->sortable()
+                    ->searchable()
+                    ->alignCenter(),
 
                 TextColumn::make('files_count')
                     ->label('Fayllar')
                     ->getStateUsing(fn ($record) => $record->files ? count($record->files) : 0)
                     ->badge()
                     ->color(fn ($state) => $state > 0 ? 'info' : 'gray')
-                    ->suffix(' ta'),
+                    ->suffix(' ta')
+                    ->alignCenter(),
+
+                IconColumn::make('has_location')
+                    ->label('GPS')
+                    ->icon('heroicon-o-map-pin')
+                    ->color(fn ($state) => $state ? 'success' : 'gray')
+                    ->getStateUsing(fn ($record) => $record->location !== null)
+                    ->alignCenter(),
 
                 IconColumn::make('status')
                     ->label('Tasdiqlangan')
@@ -51,12 +56,14 @@ class MyTasksTable
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
-                    ->falseColor('danger'),
+                    ->falseColor('danger')
+                    ->alignCenter(),
 
                 TextColumn::make('created_at')
                     ->label('Yuborilgan')
                     ->dateTime('d.m.Y H:i')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
             ])
             ->filters([
                 SelectFilter::make('task_id')

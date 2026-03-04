@@ -27,12 +27,14 @@ class LocationsRelationManager extends RelationManager
                     ->searchable()
                     ->limit(50)
                     ->tooltip(fn ($record) => $record->address)
-                    ->placeholder('Aniqlanmagan'),
+                    ->placeholder('Aniqlanmagan')
+                    ->alignCenter(),
 
                 TextColumn::make('accuracy')
                     ->label('Aniqlik')
                     ->formatStateUsing(fn ($state) => $state ? round($state) . ' m' : '-')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('battery_level')
                     ->label('Batareya')
@@ -43,7 +45,8 @@ class LocationsRelationManager extends RelationManager
                         $state > 0 => 'danger',
                         default => 'gray',
                     })
-                    ->badge(),
+                    ->badge()
+                    ->alignCenter(),
 
                 IconColumn::make('is_real_time')
                     ->label('Turi')
@@ -51,12 +54,14 @@ class LocationsRelationManager extends RelationManager
                     ->trueIcon('heroicon-o-bolt')
                     ->falseIcon('heroicon-o-clock')
                     ->trueColor('danger')
-                    ->falseColor('info'),
+                    ->falseColor('info')
+                    ->alignCenter(),
 
                 TextColumn::make('created_at')
                     ->label('Vaqt')
                     ->dateTime('d.m.Y H:i')
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
             ])
             ->filters([
                 SelectFilter::make('today')

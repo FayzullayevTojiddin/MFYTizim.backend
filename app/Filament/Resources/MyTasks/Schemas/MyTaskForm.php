@@ -6,6 +6,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -49,24 +50,26 @@ class MyTaskForm
                             ->maxSize(5120)
                             ->maxFiles(5)
                             ->reorderable()
+                            ->downloadable()
+                            ->openable()
                             ->acceptedFileTypes(['image/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
                             ->afterStateHydrated(function ($component, $state) {
                                 if (!$state) return;
-                                
+
                                 $paths = collect($state)->map(function ($file) {
                                     return is_array($file) ? $file['path'] : $file;
                                 })->filter()->toArray();
-                                
+
                                 $component->state($paths);
                             })
                             ->dehydrateStateUsing(function ($state) {
                                 if (!$state) return [];
-                                
+
                                 return collect($state)->map(function ($path) {
                                     if (is_array($path)) return $path;
-                                    
+
                                     $fullPath = Storage::disk('public')->path($path);
-                                    
+
                                     return [
                                         'name' => basename($path),
                                         'path' => $path,

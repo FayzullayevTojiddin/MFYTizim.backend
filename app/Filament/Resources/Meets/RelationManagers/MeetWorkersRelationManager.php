@@ -2,10 +2,7 @@
 
 namespace App\Filament\Resources\Meets\RelationManagers;
 
-use Filament\Actions\Action;
-use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -26,12 +23,14 @@ class MeetWorkersRelationManager extends RelationManager
                 TextColumn::make('user.name')
                     ->label('Ism')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('title')
                     ->label('Lavozim')
                     ->badge()
-                    ->color('primary'),
+                    ->color('primary')
+                    ->alignCenter(),
 
                 TextColumn::make('pivot.status')
                     ->label('Holati')
@@ -48,7 +47,8 @@ class MeetWorkersRelationManager extends RelationManager
                         'accepted' => 'Qabul qildi',
                         'rejected' => 'Rad etdi',
                         default => $state,
-                    }),
+                    })
+                    ->alignCenter(),
 
                 IconColumn::make('pivot.seen_at')
                     ->label('Ko\'rganmi')
@@ -57,19 +57,22 @@ class MeetWorkersRelationManager extends RelationManager
                     ->trueIcon('heroicon-o-eye')
                     ->falseIcon('heroicon-o-eye-slash')
                     ->trueColor('success')
-                    ->falseColor('gray'),
+                    ->falseColor('gray')
+                    ->alignCenter(),
 
                 TextColumn::make('seen_at_text')
                     ->label('Ko\'rgan vaqti')
                     ->getStateUsing(fn ($record) => $record->pivot->seen_at)
                     ->dateTime('d.m.Y H:i')
-                    ->placeholder('Ko\'rmagan'),
+                    ->placeholder('Ko\'rmagan')
+                    ->alignCenter(),
 
                 TextColumn::make('responded_at_text')
                     ->label('Javob vaqti')
                     ->getStateUsing(fn ($record) => $record->pivot->responded_at)
                     ->dateTime('d.m.Y H:i')
-                    ->placeholder('Javob bermagan'),
+                    ->placeholder('Javob bermagan')
+                    ->alignCenter(),
             ])
             ->headerActions([
                 //

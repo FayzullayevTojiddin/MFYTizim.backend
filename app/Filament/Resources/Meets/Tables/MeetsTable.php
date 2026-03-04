@@ -22,19 +22,24 @@ class MeetsTable
                     ->label('Sarlavha')
                     ->searchable()
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->limit(30)
+                    ->tooltip(fn ($record) => $record->title)
+                    ->alignCenter(),
 
                 TextColumn::make('address')
                     ->label('Manzil')
                     ->searchable()
                     ->limit(30)
-                    ->tooltip(fn ($record) => $record->address),
+                    ->tooltip(fn ($record) => $record->address)
+                    ->alignCenter(),
 
                 TextColumn::make('meet_at')
                     ->label('Vaqti')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->color(fn ($record) => $record->meet_at->isPast() ? 'gray' : 'success'),
+                    ->color(fn ($record) => $record->meet_at->isPast() ? 'gray' : 'success')
+                    ->alignCenter(),
 
                 TextColumn::make('status')
                     ->label('Holati')
@@ -50,31 +55,36 @@ class MeetsTable
                         'active' => 'Faol',
                         'completed' => 'Yakunlangan',
                         'cancelled' => 'Bekor qilingan',
-                    }),
+                    })
+                    ->alignCenter(),
 
                 TextColumn::make('workers_count')
                     ->label('Chaqirilganlar')
                     ->counts('workers')
                     ->sortable()
                     ->badge()
-                    ->color('primary'),
+                    ->color('primary')
+                    ->alignCenter(),
 
                 TextColumn::make('accepted_workers_count')
                     ->label('Qabul qilgan')
                     ->counts('acceptedWorkers')
                     ->sortable()
                     ->badge()
-                    ->color('success'),
+                    ->color('success')
+                    ->alignCenter(),
 
                 TextColumn::make('creator.name')
                     ->label('Yaratuvchi')
                     ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('created_at')
                     ->label('Yaratilgan')
                     ->dateTime('d.m.Y')
                     ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

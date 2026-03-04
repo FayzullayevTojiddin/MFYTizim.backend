@@ -23,30 +23,35 @@ class TasksTable
                     ->badge()
                     ->color('primary')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->alignCenter(),
 
                 TextColumn::make('worker.user.name')
                     ->label('Ishchi ismi')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->alignCenter(),
 
                 TextColumn::make('count')
                     ->label('Soni')
                     ->sortable()
                     ->badge()
-                    ->color('gray'),
+                    ->color('gray')
+                    ->alignCenter(),
 
                 TextColumn::make('deadline_at')
                     ->label('Muddat')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->color(fn ($record) => $record->isOverdue() ? 'danger' : 'default'),
+                    ->color(fn ($record) => $record->isOverdue() ? 'danger' : 'default')
+                    ->alignCenter(),
 
                 TextColumn::make('completed_at')
                     ->label('Bajarilgan')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->placeholder('Bajarilmagan'),
+                    ->placeholder('Bajarilmagan')
+                    ->alignCenter(),
 
                 IconColumn::make('status')
                     ->label('Holati')
@@ -54,12 +59,14 @@ class TasksTable
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
-                    ->falseColor('danger'),
+                    ->falseColor('danger')
+                    ->alignCenter(),
 
                 TextColumn::make('created_at')
                     ->label('Yaratilgan')
                     ->dateTime('d.m.Y')
                     ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([

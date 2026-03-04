@@ -19,45 +19,58 @@ class WorkersTable
                 ImageColumn::make('user.image')
                     ->label('Rasm')
                     ->circular()
-                    ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->user?->name) . '&background=random'),
+                    ->disk('public')
+                    ->defaultImageUrl(fn ($record) => 'https://ui-avatars.com/api/?name=' . urlencode($record->user?->name) . '&background=random')
+                    ->alignCenter(),
 
                 TextColumn::make('user.name')
                     ->label('Ism')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->alignCenter(),
 
                 TextColumn::make('title')
                     ->label('Lavozim')
                     ->searchable()
                     ->sortable()
                     ->badge()
-                    ->color('primary'),
+                    ->color('primary')
+                    ->alignCenter(),
+
+                TextColumn::make('phone_number')
+                    ->label('Telefon')
+                    ->searchable()
+                    ->alignCenter(),
 
                 TextColumn::make('completed_tasks_count')
                     ->label('Bajarilgan')
                     ->counts(['tasks as completed_tasks_count' => fn ($query) => $query->whereNotNull('completed_at')])
                     ->sortable()
                     ->badge()
-                    ->color('success'),
+                    ->color('success')
+                    ->alignCenter(),
 
                 TextColumn::make('pending_tasks_count')
                     ->label('Bajarilmagan')
                     ->counts(['tasks as pending_tasks_count' => fn ($query) => $query->whereNull('completed_at')])
                     ->sortable()
                     ->badge()
-                    ->color('danger'),
+                    ->color('danger')
+                    ->alignCenter(),
 
                 TextColumn::make('tasks_count')
                     ->label('Jami')
                     ->counts('tasks')
                     ->sortable()
                     ->badge()
-                    ->color('gray'),
+                    ->color('gray')
+                    ->alignCenter(),
 
                 TextColumn::make('created_at')
                     ->label('Qo\'shilgan')
                     ->dateTime('d.m.Y')
                     ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
