@@ -13,7 +13,6 @@ use Kreait\Firebase\Exception\Messaging\NotFound;
 use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 use Kreait\Firebase\Messaging\CloudMessage;
 
-
 class EditWorker extends EditRecord
 {
     protected static string $resource = WorkerResource::class;
