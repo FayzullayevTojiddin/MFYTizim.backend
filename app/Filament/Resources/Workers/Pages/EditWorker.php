@@ -41,7 +41,11 @@ class EditWorker extends EditRecord
 
                     try {
                         $message = CloudMessage::withTarget('token', $user->fcm)
-                            ->withData(['type' => 'location_request'])
+                            ->withData([
+                                'type' => 'location_request',
+                                'title' => 'GPS so\'rov',
+                                'message' => 'Joylashuvingiz so\'ralmoqda...',
+                            ])
                             ->withHighestPossiblePriority();
 
                         app('firebase.messaging')->send($message);
