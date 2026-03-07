@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Workers;
 use App\Filament\Resources\Workers\Pages\CreateWorker;
 use App\Filament\Resources\Workers\Pages\EditWorker;
 use App\Filament\Resources\Workers\Pages\ListWorkers;
+use App\Filament\Resources\Workers\Pages\ViewWorker;
 use App\Filament\Resources\Workers\RelationManagers\LocationsRelationManager;
 use App\Filament\Resources\Workers\RelationManagers\TasksRelationManager;
 use App\Filament\Resources\Workers\Schemas\WorkerForm;
@@ -58,6 +59,7 @@ class WorkerResource extends Resource
         return [
             'index' => ListWorkers::route('/'),
             'create' => CreateWorker::route('/create'),
+            'view' => ViewWorker::route('/{record}'),
             'edit' => EditWorker::route('/{record}/edit'),
         ];
     }
