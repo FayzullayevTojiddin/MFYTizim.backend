@@ -2,10 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use App\Exports\WorkerRatingExport;
 use App\Models\Worker;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
@@ -15,6 +17,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Enums\FiltersLayout;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Facades\Excel;
 use UnitEnum;
 
 class WorkerRating extends Page implements HasTable
@@ -115,6 +118,13 @@ class WorkerRating extends Page implements HasTable
             ->filtersLayout(FiltersLayout::AboveContent)
             ->deferFilters(false)
             ->filtersFormColumns(1)
+            ->headerActions([
+                Action::make('export')
+                    ->label('Excel yuklab olish')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->action(fn () => Excel::download(new WorkerRatingExport(), 'ishchilar-reytingi.xlsx')),
+            ])
             ->defaultSort('completed_tasks', 'desc')
             ->paginated(false);
     }
