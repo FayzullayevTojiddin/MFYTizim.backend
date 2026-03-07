@@ -47,7 +47,7 @@ class MyTaskForm
                             ->multiple()
                             ->directory('my-tasks')
                             ->disk('public')
-                            ->maxSize(5120)
+                            ->maxSize(102400)
                             ->maxFiles(5)
                             ->reorderable()
                             ->downloadable()

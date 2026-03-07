@@ -25,7 +25,7 @@ class PostTaskController
             'files' => ['nullable', 'array'],
             'files.*' => [
                 'file',
-                'max:51200',
+                'max:102400',
                 'mimetypes:image/jpeg,image/png,image/gif,image/webp,image/jpg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/octet-stream',
             ],
             'latitude' => ['nullable', 'numeric'],
